@@ -1,7 +1,9 @@
 import App from './App.vue';
 import { Plugin, Menu, Setting, getFrontend } from 'siyuan';
-import { app, i18n, isMobile, eventBus, position } from './hooks/useSiYuan';
+import { app, i18n, isMobile, eventBus, position, confirmBeforeCreate } from './hooks/useSiYuan';
 import SySelect from './lib/SySelect.vue';
+import SyNotebookSelect from './lib/SyNotebookSelect.vue';
+import SyConfirmSwitch from './lib/SyConfirmSwitch.vue';
 import './index.less';
 
 const STORAGE_NAME = 'arco-calendar-entry';
@@ -26,11 +28,13 @@ export default class ArcoCalendarPlugin extends Plugin {
   private async init() {
     const data = await this.loadData(STORAGE_NAME);
     if (!data) {
-      await this.saveData(STORAGE_NAME, { position: 'top-left' });
+      await this.saveData(STORAGE_NAME, { position: 'top-left', confirmBeforeCreate: false });
       await this.loadData(STORAGE_NAME);
       position.value = 'top-left';
+      confirmBeforeCreate.value = false;
     } else {
       position.value = data.position;
+      confirmBeforeCreate.value = !!data.confirmBeforeCreate;
     }
     if (position.value === 'top-left') {
       this.addTopItem('left');
@@ -47,10 +51,10 @@ export default class ArcoCalendarPlugin extends Plugin {
       height: 'auto',
       width: '500px',
       confirmCallback: async () => {
-        if (position.value !== this.data[STORAGE_NAME]) {
-          await this.saveData(STORAGE_NAME, { position: position.value });
-          window.location.reload();
-        }
+        const saved = await this.loadData(STORAGE_NAME);
+        const positionChanged = saved?.position !== position.value;
+        await this.saveData(STORAGE_NAME, { position: position.value, confirmBeforeCreate: confirmBeforeCreate.value });
+        if (positionChanged) window.location.reload();
       },
     });
     const selectEle = document.createElement('div');
@@ -58,6 +62,20 @@ export default class ArcoCalendarPlugin extends Plugin {
     this.setting.addItem({
       title: i18n.value.position.title,
       actionElement: selectEle,
+    });
+
+    const notebookEle = document.createElement('div');
+    createApp(SyNotebookSelect).mount(notebookEle);
+    this.setting.addItem({
+      title: i18n.value.settings?.dailyDestination?.title || 'Daily note destination',
+      actionElement: notebookEle,
+    });
+
+    const confirmEle = document.createElement('div');
+    createApp(SyConfirmSwitch).mount(confirmEle);
+    this.setting.addItem({
+      title: i18n.value.settings?.confirmBeforeCreate?.title || 'Confirm before creating new note',
+      actionElement: confirmEle,
     });
   }
 

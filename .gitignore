@@ -27,9 +27,12 @@ coverage
 *.sln
 *.sw?
 
+# Typescript
+*.tsbuildinfo
 
 .idea
 .vscode
+.cursorrules
 .DS_Store
 pnpm-lock.yaml
 package.zip

@@ -1,7 +1,7 @@
 {
-  "name": "arco-calendar",
-  "author": "svchord",
-  "url": "https://github.com/svchord/siyuan-arco-calendar",
+  "name": "siyuan-zk-calendar",
+  "author": "AntonioDMaster",
+  "url": "https://github.com/AntonioDMaster/siyuan-zk-calendar",
   "version": "1.5.0",
   "minAppVersion": "2.11.1",
   "backends": [
@@ -11,24 +11,27 @@
     "all"
   ],
   "displayName": {
-    "zh_CN": "日历面板",
-    "en_US": "Calendar Panel"
+    "en_US": "Calendar Panel",
+    "zh_CN": "日历面板"
   },
   "description": {
-    "zh_CN": "日历面板上快速新建或转到日记",
-    "en_US": "Quickly create a new or go to diary on the calendar panel"
+    "en_US": "Quickly create a new or go to diary on the calendar panel",
+    "zh_CN": "日历面板上快速新建或转到日记"
   },
   "readme": {
-    "zh_CN": "README.md",
-    "en_US": "README_en_US.md"
+    "en_US": "README.md",
+    "zh_CN": "README_zh_CN.md"
   },
   "i18n": [
-    "zh_CN",
-    "en_US"
+    "en_US",
+    "zh_CN"
   ],
   "funding": {
+    "openCollective": "",
+    "patreon": "",
+    "github": "",
     "custom": [
-      "https://afdian.net/a/sevenchord"
+      ""
     ]
   },
   "keywords": [

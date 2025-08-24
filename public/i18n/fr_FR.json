@@ -11,5 +11,17 @@
     "topLeft": "En haut à gauche",
     "topRight": "En haut à droite",
     "dock": "Dock"
+  },
+  "settings": {
+    "dailyDestination": {
+      "title": "Destination de la note quotidienne",
+      "placeholder": "Sélectionnez le bloc-notes..."
+    },
+    "confirmBeforeCreate": {
+      "title": "Nouvelle note quotidienne",
+      "content": "Aucune note quotidienne pour cette date. Voulez-vous la créer ?",
+      "ok": "Créer",
+      "cancel": "Annuler"
+    }
   }
 }

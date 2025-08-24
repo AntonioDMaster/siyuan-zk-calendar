@@ -1,51 +1,51 @@
-# arco-calendar
+# siyuan-zk-calendar
 
-简体中文 \| [English](README_en_US.md)
+English \| [简体中文](README_zh_CN.md)
 
-依赖 arco design 组件库开发的思源笔记日历插件
+*siyuan-zk-project aims to deliver a minimal set of Zettelkasten features to SiYuan*
 
-<img width="1280" alt="preview" src="https://github.com/svchord/siyuan-arco-calendar/assets/61345763/6bdf09a9-b5a1-48f7-b499-340d44397787">
+Siyuan note calendar plug-in developed by relying on arco design component library
 
-## 参考与感谢
+## Reference and Thanks
 
-- [BryceAndJuly](https://github.com/BryceAndJuly) 在社区中的[首次实现](https://ld246.com/article/1662969146166)
-- [HowcanoeWang/calendar](https://github.com/HowcanoeWang/calendar) 对上一项目的反编译以及功能拓展
-- [九炎](https://github.com/leolee9086) 大佬提供的 WebSocket 封装模板
+- First implementation of BryceAndJuly in the community
+- HowcanoeWang/calendar decompilation and function expansion of the previous project
+- The WebSocket package template provided by Jiuyan
 
-## 修改颜色
+## Modify Color
 
-将以下代码插入 `theme.css` 内,并自行修改颜色
+Insert the following code into theme.css and modify the color by yourself
 
 ```css
-// 暗黑模式的颜色即下两行开头添加"[data-theme-mode='dark']"
+// The color of the dark mode is to add "[data-theme-mode='dark']" at the beginning of the next two lines
 .arco-tabs,
 .arco-trigger-popup {
-  // 主色 (r,g,b)
+  // primary color (r,g,b)
   --arco-primary: 53, 117, 240;
   --primary-6: var(--arco-primary);
-  // 浅主色
+  // light primary color
   --color-primary-light-2: var(--b3-theme-primary-lightest);
 
-  // 页面底色
+  // page background color
   --color-bg-1: var(--b3-menu-background);
-  // 下拉选择框输入时底色
+  // The background color of the drop-down selection box
   --color-bg-2: var(--b3-menu-background);
-  // 下拉选择框底色 && 下拉菜单选项悬浮底色
+  // Background color of drop-down selection box && floating background color of drop-down menu options
   --color-fill-2: var(--b3-list-hover);
   --color-fill-3: var(--b3-list-hover);
 
-  // 日历底色
+  // calendar background color
   --color-bg-popup: var(--b3-menu-background);
 
-  // 边框颜色
+  // border color
   --color-neutral-3: var(--b3-border-color);
 
-  // 文字颜色
+  // text color
   --color-text-1: var(--b3-theme-on-background);
 }
 ```
 
-## 版本日志
+## Changelog
 
 [Changelog](./CHANGELOG.md)
 

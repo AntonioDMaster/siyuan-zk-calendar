@@ -11,5 +11,17 @@
     "topLeft": "Top left",
     "topRight": "Top right",
     "dock": "Dock"
+  },
+  "settings": {
+    "dailyDestination": {
+      "title": "Daily note destination",
+      "placeholder": "Select notebook..."
+    },
+    "confirmBeforeCreate": {
+      "title": "New Daily Note",
+      "content": "No Daily Note exists for this date. Would you like to create it?",
+      "ok": "Create",
+      "cancel": "Cancel"
+    }
   }
 }

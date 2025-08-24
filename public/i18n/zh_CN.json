@@ -11,5 +11,17 @@
     "topLeft": "顶栏左",
     "topRight": "顶栏右",
     "dock": "边栏"
+  },
+  "settings": {
+    "dailyDestination": {
+      "title": "日记目标位置",
+      "placeholder": "选择笔记本..."
+    },
+    "confirmBeforeCreate": {
+      "title": "新建前确认",
+      "content": "该日期暂无日记，是否现在创建？",
+      "ok": "创建",
+      "cancel": "取消"
+    }
   }
 }

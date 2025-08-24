@@ -1,17 +1,6 @@
 <template>
   <a-config-provider :locale="locale">
     <a-tabs style="width: 280px">
-      <template #extra>
-        <a-select
-          v-model="selectNotebookId"
-          :options="cusNotebooks"
-          :field-names="{ value: 'id', label: 'name' }"
-          :style="{ width: '160px', margin: 'auto' }"
-          :placeholder="i18n.placeholder"
-          allow-search
-        >
-        </a-select>
-      </template>
       <a-tab-pane key="1">
         <template #title> {{ i18n.tabName }} </template>
         <CalendarView :notebook="selectNotebook" />
@@ -24,7 +13,6 @@
 
 <script lang="ts" setup>
 import CalendarView from '@/components/CalendarView.vue';
-import { Constants } from 'siyuan';
 import { lsNotebooks, request, pushErrMsg } from '@/api/api';
 import { useLocale, formatMsg } from '@/hooks/useLocale';
 import { eventBus, i18n } from '@/hooks/useSiYuan';
@@ -33,7 +21,7 @@ import { refreshSql } from './api/utils';
 
 const { locale } = useLocale();
 
-// 获取笔记本列表
+// Get notebook list
 const cusNotebooks = ref<CusNotebook[]>([]);
 const selectNotebookId = ref<NotebookId | undefined>(undefined);
 const selectNotebook = computed(() => cusNotebooks.value.find(book => book.id === selectNotebookId.value));
@@ -63,18 +51,6 @@ eventBus.value?.on('ws-main', async ({ detail }) => {
   }
 });
 
-watch(selectNotebookId, async bookId => {
-  if (!bookId) {
-    await pushErrMsg(formatMsg('notNoteBook'));
-    return;
-  }
-  const storage = await request('/api/storage/getLocalStorage');
-  if (bookId !== storage['local-dailynoteid']) {
-    await request('/api/storage/setLocalStorageVal', {
-      app: Constants.SIYUAN_APPID,
-      key: 'local-dailynoteid',
-      val: bookId,
-    });
-  }
-});
+// Notebook changes are managed via plugin settings. The calendar reads the
+// selected notebook from local storage during init and on notebook ws events.
 </script>

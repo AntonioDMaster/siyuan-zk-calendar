@@ -24,16 +24,17 @@ import dayjs from 'dayjs';
 import * as api from '@/api/api';
 import { openDoc } from '@/api/daily-note';
 import { useLocale, formatMsg } from '@/hooks/useLocale';
-import { eventBus } from '@/hooks/useSiYuan';
+import { eventBus, confirmBeforeCreate, i18n } from '@/hooks/useSiYuan';
 import { CusNotebook } from '@/utils/notebook';
 import { refreshSql } from '@/api/utils';
+import { Dialog } from 'siyuan';
 
 const { locale } = useLocale();
 
 const props = defineProps<{ notebook: CusNotebook | undefined }>();
 const { notebook } = toRefs(props);
 
-//已存在日记的日期
+// Dates with existing daily notes
 const existDailyNotesMap = ref(new Map());
 
 async function getExistDate(date: Date) {
@@ -74,9 +75,37 @@ async function openDailyNote(date: Date) {
     openDoc(existDailyNotesMap.value.get(dateStr));
     return;
   }
+  if (confirmBeforeCreate.value) {
+    const ok = await new Promise<boolean>(resolve => {
+      const title = i18n.value.settings?.confirmBeforeCreate?.title || 'Confirm before creating new note';
+      const contentText = i18n.value.settings?.confirmBeforeCreate?.content || 'No daily note exists for this date. Create it now?';
+      const okText = i18n.value.settings?.confirmBeforeCreate?.ok || 'Create';
+      const cancelText = i18n.value.settings?.confirmBeforeCreate?.cancel || 'Cancel';
+      const html = `
+        <div class="b3-dialog__content">${contentText}</div>
+        <div class="b3-dialog__action" style="gap:8px;display:flex;justify-content:flex-end;">
+          <button class="b3-button" data-action="cancel">${cancelText}</button>
+          <button class="b3-button b3-button--outline" data-action="ok">${okText}</button>
+        </div>
+      `;
+      const d = new Dialog({
+        title,
+        content: html,
+        width: '520px',
+        height: 'auto',
+        destroyCallback: () => resolve(false),
+      });
+      const root = d.element as HTMLElement;
+      const cancelBtn = root.querySelector('[data-action="cancel"]') as HTMLButtonElement | null;
+      const okBtn = root.querySelector('[data-action="ok"]') as HTMLButtonElement | null;
+      cancelBtn && (cancelBtn.onclick = () => { d.destroy(); resolve(false); });
+      okBtn && (okBtn.onclick = () => { d.destroy(); resolve(true); });
+    });
+    if (!ok) return;
+  }
   const dailyNote = await notebook.value.createDailyNote(date);
   const { id } = dailyNote;
-  openDoc(id); //打开新建的日记
+  openDoc(id); // Open the newly created daily note
   existDailyNotesMap.value.set(dateStr, id);
 }
 
@@ -97,7 +126,7 @@ eventBus.value?.on('ws-main', async ({ detail }) => {
   }
 });
 
-// 设置 cell 类
+// Set cell class
 function getCell(date: Date) {
   return existDailyNotesMap.value.has(dayjs(date).format('YYYY-MM-DD'));
 }

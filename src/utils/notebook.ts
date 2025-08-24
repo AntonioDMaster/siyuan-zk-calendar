@@ -55,20 +55,20 @@ export class CusNotebook implements Notebook, NotebookConf {
     const hPath = await this.getSavePath(date);
     const [dailyNote] = await this.searchDailyNote(`hpath = '${hPath}'`);
     const dateStr = dayjs(date).format('YYYY-MM-DD');
-    // 当前日期已有日记却无文档属性，设置后返回日记
+    // If a daily note for the current date already exists but has no document attribute, set it and return the note
     if (dailyNote) {
       const { id } = dailyNote;
-      setCustomDNAttr(id, date); //为新建的日记添加自定义属性
+      setCustomDNAttr(id, date); // Add custom attribute to the newly created daily note
       return { id, dateStr };
     }
-    // 当前日期无日记，创建日记
+    // If there is no daily note for the current date, create a new daily note
     const docID = await api.createDocWithMd(this.id, hPath, '');
-    // 根据模板渲染日记
+    // Render the daily note using the template
     if (this.dailyNoteTemplatePath.length) {
       const res = await api.render(docID, this.dailyNoteTemplatePath);
       await api.prependBlock('dom', res.content, docID);
     }
-    setCustomDNAttr(docID, date); //为新建的日记添加自定义属性
+    setCustomDNAttr(docID, date); // Add custom attribute to the newly created daily note
     return { id: docID, dateStr };
   }
 }

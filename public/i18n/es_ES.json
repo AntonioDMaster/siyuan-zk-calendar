@@ -11,5 +11,17 @@
     "topLeft": "Arriba izquierda",
     "topRight": "Arriba derecha",
     "dock": "muelle"
+  },
+  "settings": {
+    "dailyDestination": {
+      "title": "Destino de la nota diaria",
+      "placeholder": "Seleccionar libreta..."
+    },
+    "confirmBeforeCreate": {
+      "title": "Nueva nota diaria",
+      "content": "No existe una nota diaria para esta fecha. ¿Deseas crearla?",
+      "ok": "Crear",
+      "cancel": "Cancelar"
+    }
   }
 }
